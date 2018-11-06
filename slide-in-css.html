@@ -1,0 +1,160 @@
+<html>
+
+	<head>
+		<style type='text/css'>
+			body{
+				background: -webkit-linear-gradient(left,rgba(71,174,254,0.5), rgba(233,130,30,0.3));
+				background: -moz-linear-gradient(left,rgba(71,174,254,0.5), rgba(233,130,30,0.3));
+				background: -o-linear-gradient(left,rgba(71,174,254,0.5), rgba(233,130,30,0.3)); 
+				background: linear-gradient(left,rgba(71,174,254,0.5), rgba(233,130,30,0.3));
+			}
+			p{
+				font-size: 12px;
+				color: black;
+				-webkit-text-size-adjust: none;
+			}
+			.divs{
+				width: 300px;
+				border: 1px solid black;
+				border-radius: 10px;
+				overflow: auto;
+			}
+			.divs > div{
+			height: 100px;
+				width: 100px;
+				float: left;
+				border: 2px solid gray;
+			}
+			.caroulContain{
+				width: 800px;
+				height: 400px;
+				border: 1px solid gray;
+				border-radius: 10px;
+				box-shadow: 0 0 20px rgba(0,0,0,0.5);
+				position: relative;
+				margin: 50px auto;
+				overflow: hidden;
+			}
+			.caroul{
+				width: 4000px;
+				position: absolute;
+				top: 0;
+				left: 0;
+				height: 100%;
+				animation: go 10s ease-in-out  infinite;
+				-webkit-animation: go 10s ease-in-out infinite;
+				font-size: 0;
+				cursor: pointer;
+			}
+			.caroul>div{
+				width: 20%;
+				height: 100%;
+				display: inline-block;
+				font-size: 30px;
+				text-align: center;
+				color: white;
+				text-shadow: 0 0 1rem rgba(0,0,0,0.4);
+			}
+			.caroul>div:first-child{
+				background-color: lightblue;
+			}
+			.caroul>div:nth-child(2){
+				background-color: lightcoral;
+			}
+			.caroul>div:nth-child(3){
+				background-color: lightgreen;
+			}
+			.caroul>div:nth-child(4){
+				background-color: lightsalmon;
+			}
+			.caroul>div:last-child{
+				background-color: lightblue;
+			}
+			@keyframes go{
+				0%{ left: 0;}
+				12.5%{ left: 0;}
+				25%{left: -100%;}
+				37.5%{left: -100%;}
+				50%{left: -200%;}
+				62.5%{left: -200%;}
+				75%{left: -300%;}
+				87.5%{left: -300%;}
+				100%{left: -400%;}
+			}
+			@-webkit-keyframes go{
+				0%{ left: 0;}
+				12.5%{ left: 0;}
+				25%{left: -100%;}
+				37.5%{left: -100%;}
+				50%{left: -200%;}
+				62.5%{left: -200%;}
+				75%{left: -300%;}
+				87.5%{left: -300%;}
+				100%{left: -400%;}
+			}
+			.controlButton{
+				width: 800px;
+				margin: 20px auto;
+				text-align: right;
+			}
+			.controlButton>button{
+				padding: 10px 30px;
+				margin: 0 20px;
+				border: 1px solid lightblue;
+				border-radius: 4px;
+				box-shadow: 0 0 6px rgba(0,0,0,0.5);
+			}
+			.startAnimation{
+				animation-play-state: running;
+			}
+			.stopAnimation{
+				animation-play-state: paused;
+			}
+			.caroul:hover{
+				animation-play-state: paused;
+			}
+			
+		</style>
+			
+		</style>
+	</head>
+	
+	<body>
+		<div>
+			<h1>huangyulong created ...</h1>
+		</div>
+		
+
+		<div class="caroulContain">
+			<div class="caroul" id='casoul'>
+				<div>first one</div>
+				<div>second one</div>
+				<div>third one</div>
+				<div>fourth one</div>
+				<div>first one</div>
+			</div>
+		</div>
+		<div class="controlButton">
+			<button id='start'>启动</button>
+			<button id='stop'>停止</button>
+		</div>
+
+		<script>
+			window.onload = function(){
+				var start = document.getElementById('start');
+				var stop = document.getElementById('stop');
+				var casoul = document.getElementById('casoul');
+
+				start.onclick = function(){
+					casoul.classList.remove('stopAnimation');
+					casoul.classList.add('startAnimation');
+				}
+				stop.onclick = function(){
+					casoul.classList.remove('startAnimation');
+					casoul.classList.add('stopAnimation');
+				}
+
+			}
+		</script>
+	</body>
+</html>

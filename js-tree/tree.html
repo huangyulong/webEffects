@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>tree-js</title>
+    <link rel="stylesheet" href="./icon/style.css">
+    <style>
+        /* * {margin: 0; padding: 0;} */
+        li {
+            list-style: none;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="tree"></div>
+    </div>
+
+    <script src="./jquery.3.3.1.js"></script>
+    <script>
+        var treeDom = document.getElementById('tree')
+
+        var treeData = [
+            { label: '根节点', value: 'treeRoot', pid: '0', nid: '1' },
+            { label: '子节点-1', value: 'children-1', pid: '1', nid: '1-1' },
+            { label: '子节点-2', value: 'children-2', pid: '1', nid: '1-2' },
+            { label: '子节点-3', value: 'children-3', pid: '1', nid: '1-3' },
+            { label: '子节点-1-1', value: 'children-1-1', pid: '1-1', nid: '1-1-1' },
+            { label: '子节点-1-2', value: 'children-1-2', pid: '1-1', nid: '1-1-2' },
+            { label: '子节点-1-3', value: 'children-1-3', pid: '1-1', nid: '1-1-3' },
+            { label: '子节点-2-1', value: 'children-2-1', pid: '1-2', nid: '1-2-1' },
+            { label: '子节点-2-2', value: 'children-2-2', pid: '1-2', nid: '1-2-2' },
+            { label: '子节点-2-3', value: 'children-2-3', pid: '1-2', nid: '1-2-3' },
+            { label: '子节点-2-1-1', value: 'children-2-1-1', pid: '1-2-1', nid: '1-2-1-1' },
+            { label: '子节点-2-1-2', value: 'children-2-1-2', pid: '1-2-1', nid: '1-2-1-2' },
+            { label: '子节点-2-1-3', value: 'children-2-1-3', pid: '1-2-1', nid: '1-2-1-3' },
+        ]
+
+        var treeList = []; //树状数据
+
+        // 将数据列表按照pid和nid做成树状结构
+        var treeObj = {}; //将所有nid和nid所在的数据放到对象中
+        treeData.forEach(function(item){
+            treeObj[item.nid] = item
+        })
+
+        treeData.forEach(function(item){
+            if(item.pid === '0'){
+                treeList.push(item) //将根节点放到treeList中
+            }else{
+                var parentNode = treeObj[item.pid] //找到当前的pid对应的treeObj中的nid的数据 如果能找到  那么把这条数据放到treeObj的这个数据的children中
+                if(parentNode !== undefined){
+                    if(parentNode.children){
+                        parentNode.children.push(item)
+                    }else{
+                        parentNode['children'] = [];
+                        parentNode['children'].push(item)
+                    }
+                }
+            }
+        })
+
+        //简单渲染出这棵树
+        function renderTree(treeNodes){
+            var ul = ''
+            treeNodes.forEach(function(item){
+                var li = ''; //把当前的数据保存到li  每次进来都清空
+                if(item.children && item.children.length > 0 ){
+                    li = '<li><span>' + item.label + '</span>' + renderTree(item.children) +'</li>'
+                }else{
+                    li = '<li>'+item.label +'</li>'
+                }
+                ul += li; //每次循环的children的数据都保存到当前函数的ul中
+            })
+            return '<ul>'+ul+'</ul>' //循环完当前的children后返回
+        }
+
+        //给树的节点添加checkbox
+        function renderCheckboxTree(treeNodes){
+            var ul = ''
+            treeNodes.forEach(function(item){
+                var li = ''; //把当前的数据保存到li  每次进来都清空
+                if(item.children && item.children.length > 0 ){
+                    li = '<li data-value="'+item.value+'" data-label="'+item.label+'" data-pid="'+item.pid+'" data-nid="'+item.nid+'">'+
+                            '<b><i class="icon-folder-minus"></i></b>'+
+                            '<input type="checkbox" name="checkbox" id="'+item.value+'" />'+
+                            '<span>' + item.label + '</span>' + renderCheckboxTree(item.children) +'</li>'
+                }else{
+                    li = '<li data-value="'+item.value+'" data-label="'+item.label+'" data-pid="'+item.pid+'" data-nid="'+item.nid+'">'+
+                            '<b><i class="icon-folder-minus"></i></b>'+
+                            '<input type="checkbox" name="checkbox" id="'+item.value+'" />'+
+                            '<span>' + item.label + '</span>' + '</li>'
+                }
+                ul += li; //每次循环的children的数据都保存到当前函数的ul中
+            })
+            return '<ul>'+ul+'</ul>' //循环完当前的children后返回
+        }
+
+        treeDom.innerHTML = renderCheckboxTree(treeList);
+
+        //点击左边图标  展开或收起子节点
+        $('#tree').on('click','b', function(){
+            if($(this).siblings('ul').css('display') === 'block'){
+                $(this).find('i').removeClass('icon-folder-minus').addClass('icon-folder-plus')
+            }else{
+                $(this).find('i').removeClass('icon-folder-plus').addClass('icon-folder-minus')
+            }
+            $(this).siblings('ul').toggle(500)
+        })
+
+        //获取当前节点信息
+        $('#tree').on('click','li>span',function(e){
+            e.stopPropagation(); //防止冒泡触发上层节点
+            var node = {
+                currentNodeId: $(this).parent('li').attr('data-nid'),
+                currentParentNodeId: $(this).parent('li').attr('data-pid'),
+                nodeName: $(this).parent('li').attr('data-label'),
+                nodeData: $(this).parent('li').attr('data-value'),
+                parent: $($(this).parent('li').parent('ul')).parent('li')
+            }
+            $('#tree').find('span').css({ 'color': 'black'})            
+            $(this).css({ 'color': 'lightblue'})
+            console.log(node)
+        })
+
+        var selectNode = [];
+        //勾选节点前面的checkbox
+        $('#tree').on('click', 'input[type=checkbox]',function(){
+           if($(this).prop('checked')){
+                selectNode = [];
+               //如果是checked 为 true 时 将其子节点勾选
+                $(this).siblings('ul').find('input[type=checkbox]').each(function(){
+                    $(this)[0].checked = true
+                    var item = {
+                        currentNodeId: $(this).parent('li').attr('data-nid'),
+                        currentParentNodeId: $(this).parent('li').attr('data-pid'),
+                        nodeName: $(this).parent('li').attr('data-label'),
+                        nodeData: $(this).parent('li').attr('data-value'),
+                        parent: $($(this).parent('li').parent('ul')).parent('li')
+                    }
+                    selectNode.push(item)
+                })
+                selectNode.push({
+                    currentNodeId: $(this).parent('li').attr('data-nid'),
+                    currentParentNodeId: $(this).parent('li').attr('data-pid'),
+                    nodeName: $(this).parent('li').attr('data-label'),
+                    nodeData: $(this).parent('li').attr('data-value'),
+                    parent: $($(this).parent('li').parent('ul')).parent('li')
+                })
+           }else{
+                var cancleNodes = []; //取消勾选的节点数组
+                var sameIndex = []; //取消勾选的节点所在selectNode数组的下标
+                
+                //如果是checked 为 false 时 将其子节点取消勾选
+                cancleNodes.push({ currentNodeId:$(this).parent('li').attr('data-nid') })
+                $(this).siblings('ul').find('input[type=checkbox]').each(function(){
+                    $(this)[0].checked = false
+                    cancleNodes.push({currentNodeId: $(this).parent('li').attr('data-nid') })
+                })
+
+                selectNode.forEach(function(item,index){
+                    cancleNodes.forEach(function(elem){
+                        if(elem.currentNodeId === item.currentNodeId){
+                            sameIndex.push(index)
+                        }
+                    })
+                })
+
+                sameIndex.forEach(function(item){
+                    selectNode.splice(item,1)
+                })
+           }
+            console.log(selectNode)
+        })
+
+
+    </script>
+</body>
+</html>

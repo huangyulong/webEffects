@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>flex瀑布流</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        html, body {
+
+        }
+        .container {
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+        }
+        .column {
+            display: flex;
+            flex-direction: column;
+            width: calc(100% / 4);
+            box-sizing: border-box;
+            border: 1px solid black;
+            padding: 10px;
+        }
+        .item {
+            width: 100%;
+            height: auto;
+            display: flex;
+            margin: 10px 0;
+        }
+        .item-content1 {
+            flex: 1;
+            height: 300px;
+            background-color: lightblue;
+        }
+        .item-content2 {
+            flex: 1;
+            height: 200px;
+            background-color: lightcoral;
+        }
+        .item-content3 {
+            flex: 1;
+            height: 400px;
+            background-color: lightgreen;
+        }
+        .container2 {
+            width: 100%;
+        }
+        .item2 {
+            break-inside: avoid;
+            width: 300px;
+            box-sizing: border-box;
+            padding: 10px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="column">
+            <div class="item">
+                <div class="item-content1"><p>name</p></div>
+            </div>
+            <div class="item">
+                <div class="item-content2"><p>name</p></div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="item">
+                <div class="item-content2"><p>name</p></div>
+            </div>
+            <div class="item">
+                <div class="item-content3"><p>name</p></div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="item">
+                <div class="item-content3"><p>name</p></div>
+            </div>
+            <div class="item">
+                <div class="item-content2"><p>name</p></div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="item">
+                <div class="item-content2"><p>name</p></div>
+            </div>
+            <div class="item">
+                <div class="item-content3"><p>name</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="container2">
+        <div class="item2">
+            <div class="item-content1"><p>name</p></div>
+        </div>
+        <div class="item2">
+            <div class="item-content2"><p>name</p></div>
+        </div>
+        <div class="item2">
+            <div class="item-content3"><p>name</p></div>
+        </div>
+        <div class="item2">
+            <div class="item-content1"><p>name</p></div>
+        </div>
+        <div class="item2">
+            <div class="item-content2"><p>name</p></div>
+        </div>
+        <div class="item2">
+            <div class="item-content3"><p>name</p></div>
+        </div>
+    </div>
+</body>
+</html>

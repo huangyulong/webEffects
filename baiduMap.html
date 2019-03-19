@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>map</title>
+    <style type="text/css">
+        html,body{
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .contain{
+            width: 90%;
+            height: 90%;
+            border: 1px solid lightgray;
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="contain" id='container'></div>
+
+
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=twWP7A3R2LMK5TLusFvl4xKfF0lbqEph"></script>
+    <script>
+        var map = new BMap.Map("container"); 
+        var point = new BMap.Point(116.404, 39.915); 
+        map.centerAndZoom(point, 20);  
+
+        map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+
+        //添加控件
+        //为控件添加参数
+        var controlopts = { offset: new BMap.Size(10, 10), type: BMAP_NAVIGATION_CONTROL_LARGE }
+        map.addControl(new BMap.NavigationControl(controlopts));    
+        map.addControl(new BMap.ScaleControl());    
+        map.addControl(new BMap.OverviewMapControl());    
+        map.addControl(new BMap.MapTypeControl());    
+        map.setCurrentCity("北京"); // 仅当设置城市信息时，MapTypeControl的切换功能才能可用   
+
+        //标注
+        var marker = new BMap.Marker(point);        // 创建标注    
+        map.addOverlay(marker);                     // 将标注添加到地图中 
+        marker.addEventListener("click", function(){    
+            alert("您点击了标注");    
+        });  
+        marker.enableDragging();    
+        marker.addEventListener("dragend", function(e){    
+            alert("当前位置：" + e.point.lng + ", " + e.point.lat);    
+        }) 
+        
+        //信息窗口
+        var infoopts = {    
+            width : 250,     // 信息窗口宽度    
+            height: 100,     // 信息窗口高度    
+            title : "Hello"  // 信息窗口标题   
+        }    
+        var infoWindow = new BMap.InfoWindow("World", infoopts);  // 创建信息窗口对象    
+        map.openInfoWindow(infoWindow, map.getCenter());      // 打开信息窗口
+
+        //交通流量图层
+        var traffic = new BMap.TrafficLayer();        // 创建交通流量图层实例      
+        map.addTileLayer(traffic);                    // 将图层添加到地图上
+        map.removeTileLayer(traffic);                // 将图层移除
+
+        //全景图层
+        var panoramaCoverageLayer = new BMap.PanoramaCoverageLayer(); //创建全景图层
+        map.addTileLayer(panoramaCoverageLayer);  
+        map.removeTileLayer(panoramaCoverageLayer);   
+
+        //search检索
+        // var local = new BMap.LocalSearch(map, {      
+        //     renderOptions:{map: map}      
+        // });      
+        // local.search("天安门");
+
+        // var local2 = new BMap.LocalSearch("北京市",   
+        //     {renderOptions: {map: map,panel: "results"}});         
+        // local2.search("中关村");
+
+        //解析地址
+        // 创建地址解析器实例     
+        var myGeo = new BMap.Geocoder();      
+        // 将地址解析结果显示在地图上，并调整地图视野    
+        myGeo.getPoint("北京市海淀区上地10街10号", function(point){      
+            if (point) {      
+                map.centerAndZoom(point, 20);      
+                map.addOverlay(new BMap.Marker(point));      
+            }      
+        }, 
+        "北京市");
+
+        //点击获取坐标
+        var geoc = new BMap.Geocoder();    
+        map.addEventListener("click", function(e){        
+            var pt = e.point;
+            geoc.getLocation(pt, function(rs){
+                var addComp = rs.addressComponents;
+                alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+            });        
+        });
+
+        //全景控件
+        var stCtrl = new BMap.PanoramaControl();  
+        stCtrl.setOffset(new BMap.Size(20, 20));  
+        map.addControl(stCtrl);
+
+        //路线规划 
+        // var walk = new BMap.WalkingRoute(map, {    
+        //     renderOptions: {map: map}    
+        // });    
+        // walk.search("王府井", "西单");
+
+        //个性化地图
+        // map.setMapStyle({
+        //     styleJson:[
+        //         {
+        //             "featureType": "background",
+        //             "elementType": "all",
+        //             "stylers": {
+        //                 "color": "#fff2ccff"
+        //             }
+        //         },
+        //         {
+        //             "featureType": "green",
+        //             "elementType": "all",
+        //             "stylers": {
+        //                 "color": "#93c47dff"
+        //             }
+        //         },
+        //         {
+        //             "featureType": "water",
+        //             "elementType": "all",
+        //             "stylers": {
+        //                 "color": "#00ffffff"
+        //             }
+        //         },
+        //         {
+        //             "featureType": "road",
+        //             "elementType": "all",
+        //             "stylers": {
+        //                 "color": "#ccccccff"
+        //             }
+        //         },
+        //         {
+        //             "featureType": "boundary",
+        //             "elementType": "all",
+        //             "stylers": {
+        //                       "color": "#ff0000ff"
+        //             }
+        //         }
+        //     ]
+        // });
+    </script>
+    
+</body>
+</html>

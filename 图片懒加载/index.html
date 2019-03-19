@@ -37,6 +37,7 @@
     </style>
 </head>
 <body>
+    <div id="div" style="width: 100vw; height: 50vh; border: 1px solid black;"></div>
     <div class="container">
         <ul class="container-ul">
             <li class="ul-li"><img src="" data-src="./images/1.jpg" alt="pic"></li>
@@ -73,6 +74,7 @@
         }
         window.onscroll = throttle(showPic, 1000);
 
+        // 节流函数
         function throttle(method, delay) {
             var timer = null;
             var beginTime = new Date()
@@ -90,6 +92,24 @@
                 }
             }
         }
+
+        // 防抖函数
+        function antiShake(method, delay) {
+            var timer = null;
+            return function() {
+                var context = this;
+                clearTimeout(timer)
+                timer = setTimeout(function(){
+                    method.call(context)
+                },delay)
+            }
+        }
+
+        function ss() {
+            console.log(2222)
+        }
+        var div = document.getElementById('div')
+        div.onmousemove = antiShake(ss, 1000)
     </script>
 </body>
 </html>

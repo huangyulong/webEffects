@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>css test</title>
+    <style>
+        body {display: flex; flex-wrap: wrap; color: lightcoral}
+        .container {
+            width: 200px;
+            height: 250px;
+        }
+        .filters {
+            filter: grayscale(1);
+            -webkit-filter: grayscale(1);
+        }
+        .sepia{
+            -webkit-filter: sepia(1)
+        }
+        .invert{-webkit-filter: invert(1)}
+        .saturate{-webkit-filter: saturate(2)}
+        .hue-rotate{-webkit-filter: hue-rotate(180deg)}
+        .opacity{-webkit-filter: opacity(0.3)}
+        .contrast{-webkit-filter:contrast(2)}
+        .blur{-webkit-filter: blur(2px)}
+        .drop-shadow{-webkit-filter: drop-shadow(4px 4px 4px #000)}
+        .zuhe{-webkit-filter: blur(3px) drop-shadow(4px 4px 4px #000)}
+        .zuhe:hover{
+            content: url('./img/1.jpg');
+            width: 200px;
+            height: 200px;
+        }
+        .p{
+            text-shadow: 0 0 4px rgba(0,0,0,0.6);
+            color: transparent;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        原图：
+        <img src="./img/2.jpg" alt="pic">
+    </div>
+    <div class="container">
+        grayscale灰度：
+        <img class="filters" src="./img/2.jpg" alt="pic">
+    </div>
+    <div class="container">
+        sepia褐色
+        <img class="sepia" src="./img/2.jpg" alt="pic">
+    </div>
+    <div class="container">
+        invert反转颜色
+        <img class="invert" src="./img/2.jpg" alt="pic">
+    </div>
+    <div class="container">
+        saturate饱和度
+        <img class="saturate" src="./img/2.jpg" alt="pic">
+    </div>
+    <div class="container">
+        hue-rotate色相旋转
+        <img class="hue-rotate" src="./img/2.jpg" alt="pic">
+    </div>
+    <div class="container">
+        opacity透明度
+        <img class="opacity" src="./img/2.jpg" alt="pic">
+    </div>
+    <div class="container">
+        contrast对比度
+        <img class="contrast" src="./img/2.jpg" alt="pic">
+    </div>
+    <div class="container">
+        blur模糊
+        <img class="blur" src="./img/2.jpg" alt="pic">
+    </div>
+    <div class="container">
+        drop-shadow 阴影
+        <img class="drop-shadow" src="./img/2.jpg" alt="pic">
+    </div>
+    <div class="container">
+        组合
+        <img class="zuhe" src="./img/2.jpg" alt="pic">
+    </div>
+    <div class="container">
+        文字模糊效果
+        <p class="p">这事用来测试文字的filter的效果</p>
+    </div>
+</body>
+</html>

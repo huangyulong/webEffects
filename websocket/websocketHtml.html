@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./websocket.css">
+    <title>websocket</title>
+</head>
+<body>
+    <div>websocket test</div>
+    <form role="form" id="chat_form" onsubmit="sendMessage(); return false;">
+        <div class="form-group">
+            <input class="form-control" type="text" name="message" id="input"
+                   placeholder="Type text to echo in here" value="" />
+        </div>
+        <button type="button" id="send" class="btn btn-primary"
+                onclick="sendMessage();">
+            Send!
+        </button>
+    </form>
+
+    <div class="webContain">
+        <h1>websocket show!</h1>
+        <div class="inputDesc">
+            <input type="text" id="sendInput">
+            <button onClick="sendInputFn()">发送</button>
+        </div> 
+        <div class="showSend">
+            <ul id="showLi">
+                <li>1111</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="./websocket.js"></script>
+</body>
+</html>

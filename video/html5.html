@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>dragAndDrop</title>
+	<style>
+		* {
+			padding: 0;
+			margin: 0;
+		}
+		.drag-drop-container {
+			display: flex;
+			width: 100vw;
+			height: 20vh;
+		}
+		.drag-container {
+			flex: 1;
+			border: 1px solid #333;
+		}
+		.drag-item {
+			width: 100px;
+			height: 100px;
+			background-color: lightblue;
+		}
+		.drop-container {
+			flex: 1;
+			display: flex;
+
+			background-color: lightcoral;
+		}
+		.video-container {
+			position: relative;
+			width: 80vw;
+			height: 73vh;
+			margin: 1vh 10vw;
+			border: 1px solid black;
+			box-shadow: 0 0 40px black;
+		}
+		.video { width: 100%; height: 100%; z-index: 1; position: absolute; top: 0; left: 0;}
+		.talk { width: 100%; height: 100px; z-index: 2;  background-color: rgba(0,0,0,.5); position:absolute; top: 0; left: 0;}
+		.controlVideo {
+			width: 100%; height: 50px; z-index: 2;  background-color: black; 
+			position:absolute; bottom: 0; left: 0; 
+			display: flex; justify-content: center; align-items: center;
+		}
+		.con-back{
+			margin: 0 auto;
+			flex: 1;
+			height: 10px;
+			border-radius: 5px;
+			background-color: lightgray;
+			overflow: hidden;
+			position: relative;
+		}
+		.con-bar{
+			height: 10px;
+			background-color:lightcoral;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<input type="color"  />	
+		<input type="date"  />	
+		<input type="date-time"  />	
+		<input type="month"  />	
+		<input type="search"  />
+	</div>
+	<div class="drag-drop-container">
+		<div class="drag-container">
+			<div id="drag1" class="drag-item" draggable="true" ondragstart="dragstart(event)">
+				<p>this is a draggable text</p>
+			</div>
+		</div>
+		<div id="dropContainer" class="drop-container" ondrop="dropHandler(event)" ondragover="dragover(event)">
+	
+		</div>
+	</div>
+	
+	<div class="video-container">
+		<div class="video">
+			<video src="./kenblock.mp4" controls="controls" id="video" width= "100%" height="100%">
+				不支持
+				<!-- <track kind="subtitles" default label="chinese" srclang="zh" src="./track-text.vtt" /> -->
+			</video>
+		</div>
+		<div class="talk" id="talkContainer">
+			<canvas id="canvas"  height="50"></canvas>
+		</div>
+		<div class="controlVideo">
+			<div id="times" style="width: 60px; text-align: right; "></div>
+			<div class="con-back" id="con_back">
+				<div style="width:100%; height: 100%; position: absolute; top: 0; left: 0;">
+					<div class="con-bar" id="con_bar" style="width: 0"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+
+	<script>
+		function dragstart(event) {
+			event.dataTransfer.effectAllowed = 'copy'
+			event.dataTransfer.setData('text',event.target.id)
+		}
+		function dropHandler(event) {
+			var data = event.dataTransfer.getData('text')
+			let node = document.getElementById(data).cloneNode(true)
+			event.target.appendChild(node)
+			event.preventDefault()
+		}
+		function dragover(event) {
+			event.dataTransfer.dropEffect = 'copy'
+			event.preventDefault()
+		}
+
+		var talkContainer = document.getElementById('talkContainer')
+		var canvas = document.getElementById('canvas')
+		canvas.style.width = talkContainer.offsetWidth + 'px'
+		var ctx = canvas.getContext("2d")
+		var x = canvas.width, y = 10, vx = 1, vy = 1;
+		function createBarrage(wordX, wordY, color) {
+			// ctx.font = '12px Arial';
+			ctx.fillStyle = color
+			ctx.fillText('hello world', wordX, wordY)
+		}
+
+		function draw() {
+			ctx.clearRect(0,0,canvas.width, canvas.height)
+			createBarrage(x, y, 'red')
+			createBarrage(x+40, y+12, 'blue')
+			
+			if(x > -200) {
+				x -= vx;
+			}else {
+				x = canvas.width;
+			}
+			// y += 1;
+			window.requestAnimationFrame(draw)
+		}
+		draw()
+
+		
+		// createBarrage(canvas, ctx, 50, 50, 'blue')
+		
+	</script>
+	<script src="./videoControl.js"></script>
+</body>
+</html>

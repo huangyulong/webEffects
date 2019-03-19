@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ajax practise</title>
+</head>
+<body>
+    <div>
+        <button onclick="getdata()">get ajax</button>
+    </div>
+    <script>
+        function getdata() {
+            var ajax = new XMLHttpRequest()
+            ajax.open('GET','http://jsonplaceholder.typicode.com/todos')
+            ajax.send()
+            ajax.onreadystatechange = function() {
+                console.log(ajax.readyState)
+                console.log(ajax.status)
+                if(ajax.readyState === 4 && ajax.status === 200){
+                    // console.log(JSON.parse(ajax.responseText))
+                    console.log(ajax.responseText)
+                }
+            }
+        }
+    </script>
+</body>
+</html>

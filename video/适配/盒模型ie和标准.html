@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ieOrStandard box</title>
+    <style>
+        .chrome-container {
+            width: 200px;
+            height: 200px;
+            margin: 50px;
+            background-color: lightblue;
+            display: none;
+        }
+        .ie-item {
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            border: 1px solid black;
+        }
+        .chrome-item {
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            border: 1px solid black;
+        }
+        .float-test {
+            width: 400px;
+            height: 100px;
+            box-sizing: border-box;
+            background-color: lightcoral;
+        }
+        /* *:lang(zh) .float-test div {
+            font-size: 30px!important;
+            background-color: lightcyan!important;} */
+        .float-test div{
+            width: 80px;
+            height: 100%;
+            /* display: inline-block; */
+            /* display: inline; */
+            box-sizing: border-box;
+            border: 1px solid black;
+            /* background-color: lightcyan; */
+            float: left;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chrome-container">
+        <div class="ie-item">
+            这个里面的盒模型是标准盒模型，所以如果它的宽高是不包含padding和border的
+        </div>
+    </div>
+    <div class="chrome-container">
+        <div class="chrome-item">
+            这个是ie盒模型，设置了box-sizing：border-box 所以他的宽高包含了padding和border
+        </div>
+    </div>
+    <div class="float-test">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+    </div>
+</body>
+</html>

@@ -22,40 +22,36 @@ $('#list').on('mousedown', 'li', function(event) {
        'z-index': targetIndex
     })
     templateDom.html('<p>'+$(this).html()+'</p>')
-    var offsetX = event.offsetX
-    var offsetY = event.offsetY
+})
+
+var containerOffsetTop = $('#container').offset().top
+var containerOffsetLeft = $('#container').offset().left
+
+$('#container').mousedown(function(e){
+    console.log(e)
     $('#container').on('mousemove',function(events){
-        // console.log(event)
-        console.log(events.clientX - offsetX)
         $('#template').css({
-            'top': events.clientX - offsetX,
-            'left': events.clientY - offsetY
+            'top': events.clientY -containerOffsetTop - e.offsetY + 'px',
+            'left': events.clientX - containerOffsetLeft - e.offsetX + 'px'
         })
     })
 })
 
-$('#template').mousedown(function(event){
-    var offsetX = event.offsetX
-    var offsetY = event.offsetY
-    console.log(event)
+$('#template').mousedown(function(e){
+    e.stopPropagation();
     $('#container').on('mousemove',function(events){
-        console.log(events)
-        console.log(events.clientX - offsetX)
         $('#template').css({
-            'top': events.clientY - offsetY - events.target.offsetTop + 'px',
-            'left': events.clientX - offsetX - events.target.offsetLeft + 'px'
+            'top': events.clientY -containerOffsetTop - e.offsetY + 'px',
+            'left': events.clientX - containerOffsetLeft - e.offsetX + 'px'
         })
     })
 })
 
-// 移除mousemove事件
-$('#container').on('mouseup',function(){
+$('#container').mouseup(function(){
     $(this).unbind('mousemove')
 })
 
-$('#container').click(function() {
-    console.log('width=='+event.target.offsetWidth+'; height=='+event.target.offsetHeight)
-    console.log(event)
+$('#template').mouseup(function(){
+    $(this).unbind('mousemove')
 })
-
 
